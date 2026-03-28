@@ -12,9 +12,10 @@ export function errorHandler(
       message: err.message,
     });
   }
-
+   console.error(err);
   return res.status(500).json({
     message: 'Internal Server Error',
   });
-  
+
+
 }
