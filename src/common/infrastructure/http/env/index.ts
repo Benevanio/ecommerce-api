@@ -8,13 +8,11 @@ const envSchema = z.object({
   API_URL: z.string().default('http://localhost:3333'),
 })
 
-const env = envSchema.parse(process.env)
+const _env = envSchema.safeParse(process.env)
 
-if (env.NODE_ENV === 'production') {
-  throw new Error('O ambiente de produção não está configurado')
-} else if (env.NODE_ENV === 'hml') {
-  throw new Error('O ambiente de homologação não está configurado')
-} else {
-  throw new Error('O ambiente de desenvolvimento não está configurado')
+if (_env.success === false) {
+  console.error('Invalid environment variables:', _env.error.format())
+  throw new Error('Invalid environment variables')
 }
-export { env }
+
+export const env = _env.data
