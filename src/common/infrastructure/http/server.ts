@@ -1,16 +1,13 @@
-import { env } from '../env'
-import { dataSource } from '../typeorm'
-import { app } from './app'
-import '@/common/infrastructure/container'
+import cors from 'cors'
+import dotenv from 'dotenv'
+import express from 'express'
+const app = express()
+dotenv.config()
+const Port = process.env.PORT || 3000
 
-dataSource
-  .initialize()
-  .then(() => {
-    app.listen(env.PORT, () => {
-      console.log(`Server running on port ${env.PORT}! 🏆`)
-      console.log('API docs available at GET /docs 📚')
-    })
-  })
-  .catch(error => {
-    console.error('Error initializing data source:', error)
-  })
+app.use(cors())
+app.use(express.json())
+
+app.listen(Port, () => {
+  console.log(`Server is running on port ${Port}`)
+})
