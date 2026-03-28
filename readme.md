@@ -1,4 +1,4 @@
-# API Vendas 2024
+# Ecommerce API
 
 Projeto de estudos em Node.js com TypeScript, construído como parte de uma aula do curso de Arquitetura Limpa e também como material de aprimoramento pessoal durante a minha pós-graduação.
 
