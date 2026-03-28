@@ -1,75 +1,117 @@
-<p align="center">
-  <a href="https://aluiziodeveloper.com.br/">
-    <img alt="Conex Networks" src="https://aluiziodeveloper.com.br/assets/img/icon.png" width="200" />
-  </a>
-</p>
-<h2 align="center">
-Cursos, mini-cursos, dicas, tutoriais e muito mais.
-</h2>
+# API Vendas 2024
 
-## Curso: API Restful Javascript com Node.js, Typescript, TypeORM etc
+Projeto de estudos em Node.js com TypeScript, construído como parte de uma aula do curso de Arquitetura Limpa e também como material de aprimoramento pessoal durante a minha pós-graduação.
 
-Seja muito bem-vindo e bem-vinda ao curso: **API Restful Javascript com Node.js, Typescript, TypeORM etc**, aqui você desenvolverá um exemplo de uma API de vendas, com os módulos de produtos, usuários, clientes e pedidos de compras, além vários outros recursos, incluindo o uso do TypeORM, upload de arquivos, autenticação com JWT, sistema de cache com o Redis, e muito mais.
+Este repositório representa meu processo de evolução técnica em back-end, organização de camadas, regras de negócio e boas práticas de arquitetura de software.
 
-Você precisará do Docker instalado em seu ambiente de desenvolvimento para rodar Postgres e Redis.
+## Contexto
 
-Este repositório contém o código inicial do projeto que será desenvolvido durante o curso. A ideia é ganhar tempo já trazendo todas as configurações iniciais prontas e focar naquilo que é mais importante, que é a implementação da API de fato.
+Este projeto foi utilizado como base de estudo para:
 
-### Instalando o projeto no seu PC
+- praticar os princípios de Clean Architecture
+- reforçar separação entre domínio, aplicação e infraestrutura
+- exercitar injeção de dependência, validação, autenticação e persistência
+- consolidar conhecimento técnico em paralelo à graduação lato sensu (pós-graduação)
 
-Instale o projeto em seu ambiente de desenvolvimento seguindo as etapas a seguir.
+Mais do que um projeto pronto, este repositório funciona como laboratório de aprendizado e evolução contínua.
 
-> NOTA: caso o seu PC esteja com Windows, recomendo trabalhar com um WSL Ubuntu. Acesse o link https://www.aluiziodeveloper.com.br/ambiente-de-desenvolvimento-no-windows-10-11-com-wsl/ para mais informações.
+## Objetivos de Aprendizado
 
-1. No Shell, clonar o repositório do projeto em seu PC.
+- estruturar uma API REST com foco em organização e manutenção
+- aplicar TypeScript de forma consistente no back-end
+- trabalhar com TypeORM e modelagem de dados
+- praticar autenticação com JWT
+- documentar e testar fluxos importantes da aplicação
+- estudar padrões úteis para projetos reais em Node.js
 
-```shell
-git clone https://github.com/conexnetworks/apivendas2024-course-start-code.git api-vendas-2024
-```
+## Stack Utilizada
 
-2. No Shell, acessar a pasta do projeto e instalar as dependências com o `Npm`.
+- Node.js
+- TypeScript
+- Express
+- TypeORM
+- PostgreSQL
+- Zod
+- JWT
+- TSyringe
+- Jest
+- Swagger
 
-```shell
-cd api-vendas-2024
+## Estrutura do Projeto
 
+O projeto foi organizado com foco em responsabilidade por camada.
+
+- `src/common/domain`: contratos, erros e abstrações centrais
+- `src/common/infrastructure`: configurações, providers, HTTP e integração com banco
+- `docs`: anotações e materiais auxiliares sobre os temas estudados
+
+## Conteúdos Estudados
+
+Os arquivos da pasta `docs` registram parte do material estudado durante a evolução do projeto.
+
+- class-transformer
+- dependency injection
+- integração com testes
+- JWT
+- gerenciamento de perfil e senha
+- TypeORM
+- upload de arquivos
+- use cases
+- Swagger
+
+## Requisitos
+
+Para trabalhar neste projeto, tenha instalado:
+
+- Node.js 20+ 
+- npm
+- Docker
+- PostgreSQL via container ou ambiente local
+
+## Configuração do Ambiente
+
+1. Instale as dependências:
+
+```bash
 npm ci
 ```
 
-3. No Shell, executar o comando `code .` para abrir o Visual Studio Code com o projeto carregado.
+2. Crie o arquivo `.env` a partir de `.env.example`.
 
-4. Criar o arquivo de variaveis de ambiente `.env` na pasta raiz do projeto, incluindo o conteúdo a seguir:
+3. Ajuste as variáveis de ambiente conforme seu banco e sua necessidade local.
 
-```shell
-# Application
+Exemplo base:
+
+```env
 PORT=3333
+NODE_ENV=development
 API_URL=http://localhost:3333
+
+DB_TYPE=postgres
+DB_HOST=localhost
+DB_PORT=5432
+DB_SCHEMA=public
+DB_NAME=postgres
+DB_USER=postgres
+DB_PASS=postgres
+
+JWT_SECRET=my_secret
+JWT_EXPIRES_IN=86400
 ```
 
-### Executando o projeto em seu PC
+## Scripts
 
-O projeto inicial contém apenas o arquivo `server.ts` com o um `console.log`. Executar o servidor e observar a mensagem `Olá Dev!` na console do shell:
+- `npm run dev`: inicia a aplicação em modo desenvolvimento
+- `npm run lint`: executa a análise estática
+- `npm test`: executa os testes unitários
+- `npm run test:int`: executa os testes de integração
 
-```shell
-npm run dev
-```
+## Observações
 
-**Partiu curso!**
+- Este é um repositório de estudo e aprimoramento técnico.
+- A implementação pode evoluir conforme novas aulas, refatorações e experimentos arquiteturais.
+- Parte do valor deste projeto está justamente no processo de aprendizado, e não apenas no resultado final.
 
+## Sobre Mim
 
-## Redes Sociais
-
-[Site Conex Networks](https://conexnetworks.com.br)
-
-[Blog Aluizio Developer](https://aluiziodeveloper.com.br)
-
-[Perfil Udemy](https://www.udemy.com/user/jorge-aluizio-alves-de-souza/)
-
-[Cursos Gratuitos](https://letsgoahead.com.br/)
-
-[YouTube](https://www.youtube.com/jorgealuizio)
-
-[Instagram](https://www.instagram.com/conexnetworks.dev/)
-
-[Servidor no Discord](https://discord.gg/3J87BMz5fD)
-
-[LinkedIn](https://www.linkedin.com/in/jorgealuizio/)
+Este projeto faz parte da minha jornada de aprofundamento em desenvolvimento back-end, arquitetura limpa e engenharia de software, alinhando prática de mercado com o que venho estudando durante minha pós-graduação.
