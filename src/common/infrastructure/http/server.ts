@@ -1,8 +1,9 @@
 /* eslint-disable prettier/prettier */
 import { app } from './app'
+import { env } from './env'
 
-const PORT = process.env.PORT || 3000
 
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`)
+
+app.listen(env.PORT, () => {
+  console.log(`Servidor rodando na porta ${env.PORT}`)
 })
