@@ -10,4 +10,11 @@ const envSchema = z.object({
 
 const env = envSchema.parse(process.env)
 
+if (env.NODE_ENV === 'production') {
+  throw new Error('O ambiente de produção não está configurado')
+} else if (env.NODE_ENV === 'hml') {
+  throw new Error('O ambiente de homologação não está configurado')
+} else {
+  throw new Error('O ambiente de desenvolvimento não está configurado')
+}
 export { env }
