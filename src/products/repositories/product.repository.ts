@@ -1,0 +1,21 @@
+import { RepositoryInterface } from '@/common/domain/repositories/repository.interface'
+import { ProductModel } from '../domain/models/products.model'
+
+export type ProductsId = {
+  id: string
+}
+export type CreateProductProps = {
+  id: string
+  name: string
+  price: number
+  quantity: number
+  created_at: Date
+  updated_at: Date
+}
+
+export interface ProductsRepository
+  extends RepositoryInterface<ProductModel, CreateProductProps> {
+  findByName(name: string): Promise<ProductModel | null>
+  findAllById(ids: ProductsId[]): Promise<ProductModel[]>
+  conflictingName(name: string): Promise<boolean>
+}
