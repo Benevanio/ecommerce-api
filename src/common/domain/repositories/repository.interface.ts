@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 export type SearchInput = {
   page?: number
   per_page?: number

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { AppError } from '@/common/domain/errors/app-error'
 
 export class UnauthorizedError extends AppError {
