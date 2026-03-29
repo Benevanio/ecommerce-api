@@ -11,7 +11,7 @@ export const dataSource = new DataSource({
   schema: env.DB_SCHEMA,
   synchronize: true,
   logging: false,
-  entities: [],
-  migrations: [],
-  subscribers: [],
+  entities: ['**/entities/**/*.ts'],
+  migrations: ['**/migrations/**/*.ts'],
+  subscribers: ['**/subscribers/**/*.ts'],
 })
