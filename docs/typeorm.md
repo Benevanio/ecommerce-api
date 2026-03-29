@@ -20,18 +20,23 @@ npm install typeorm pg
 
 O TypeORM disponibiliza uma ferramenta CLI que nos permite criar os arquivos de migrations para definição da estrutura do banco de dados, além de vários outros recursos.
 
-Por padrão, a CLI do Typeorm trabalha apenas com arquivos Javascript. Como alternativa, podemos usar o pacote `ts-node-dev` em conjunto com o Typeorm para executar os arquivos Typescript diretamente, através do executável. Exemplo:
+Para rodar a CLI em Typescript, usaremos o executável `typeorm-ts-node-commonjs` apontando para o arquivo de DataSource (`-d`).
 
 Vamos configurar um script no arquivo `package.json`, que será usado para rodar a CLI do TypeORM:
 
 ```json
 "scripts": {
-	"typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
+	"typeorm": "npx dotenv-cli -e .env -- typeorm-ts-node-commonjs -d ./src/common/typeorm/typeorm.ts",
+	"migration:run": "npm run typeorm -- migration:run",
+	"migration:revert": "npm run typeorm -- migration:revert",
+	"migration:show": "npm run typeorm -- migration:show"
 }
 ```
 
 Para verificar o funcionamento desse script, execute:
 
 ```shell
-npm run typeorm
+npm run migration:show
 ```
+
+Se você quiser passar comandos diretamente para a CLI, lembre-se: o `-d` deve sempre apontar para o arquivo de DataSource, e não para um arquivo de migration.
