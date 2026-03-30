@@ -23,6 +23,14 @@ export class InMemoryProductsRepository
       }),
     )
   }
+
+  protected async applySort(
+    items: ProductModel[],
+    sort: string | null,
+    sort_dir: string | null,
+  ): Promise<ProductModel[]> {
+    return super.applySort(items, sort ?? 'created_at', sort_dir ?? 'desc')
+  }
   sortableFields = ['name', 'created_at', 'updated_at']
   findByName(name: string): Promise<ProductModel | null> {
     const model = this.items.find(item => item.name === name)
