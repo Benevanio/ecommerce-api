@@ -14,7 +14,14 @@ export class InMemoryProductsRepository
     items: ProductModel[],
     filter: string | null,
   ): Promise<ProductModel[]> {
-    throw new Error('Method not implemented.')
+    if (!filter) {
+      return Promise.resolve(items)
+    }
+    return Promise.resolve(
+      items.filter(item => {
+        return item.name.toLowerCase().includes(filter.toLowerCase())
+      }),
+    )
   }
   sortableFields = ['name', 'created_at', 'updated_at']
   findByName(name: string): Promise<ProductModel | null> {
