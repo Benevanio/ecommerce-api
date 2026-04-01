@@ -15,7 +15,16 @@
     "test:int": "npx dotenv-cli -e .env.test -- jest --runInBand --config ./jest.int.config.ts",
     "posttest:int": "docker stop testsdb && docker rm testsdb"
   },
-  "keywords": [],
+  "keywords": [
+"ecommerce",
+"api",
+"typescript",
+"express",
+"typeorm",
+"postgresql","aws-s3",
+"jwt","nodemailer","swagger","testing","jest"
+
+  ],
   "author": "",
   "license": "ISC",
   "description": "",

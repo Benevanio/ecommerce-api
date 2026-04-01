@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { pathsToModuleNameMapper } from 'ts-jest'
 import { compilerOptions } from './tsconfig.json'
 
