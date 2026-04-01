@@ -19,11 +19,8 @@ export class ProductsTypeormRepository implements ProductsRepository {
     return savedEntity
   }
   async findById(id: string): Promise<ProductModel> {
-    const entity = await this.productsRepository.findOneBy({ id })
-    if (!entity) {
-      throw new Error(`Product with ID ${id} not found`)
-    }
-    return entity
+    const product = await this._get(id)
+    return product
   }
   async update(product: ProductModel): Promise<ProductModel> {
     if (!product.id) {
@@ -43,5 +40,12 @@ export class ProductsTypeormRepository implements ProductsRepository {
     }
     const count = await query.getCount()
     return count > 0
+  }
+  protected async _get(id: string): Promise<ProductEntity> {
+    const product = await this.productsRepository.findOneBy({ id })
+    if (!product) {
+      throw new Error(`Product with ID ${id} not found`)
+    }
+    return product
   }
 }
