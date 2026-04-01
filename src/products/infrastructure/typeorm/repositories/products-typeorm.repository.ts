@@ -1,39 +1,47 @@
+import { dataSource } from '@/common/typeorm/typeorm'
 import {
   ProductModel,
   ProductsRepository,
 } from '@/products/domain/models/products.model'
+import { Repository } from 'typeorm'
+import { ProductEntity } from '../entities/products.entities'
 
 export class ProductsTypeormRepository implements ProductsRepository {
-  async insert(product: ProductModel): Promise<ProductModel> {
-    if (!product.id) {
-      product.id = crypto.randomUUID()
-    }
-    const now = new Date()
-    if (!product.created_at) {
-      product.created_at = now
-    }
-    product.updated_at = now
+  sortableFields = ['name', 'price', 'quantity', 'created_at', 'updated_at']
+  productsRepository: Repository<ProductEntity>
 
-    return product
+  constructor() {
+    this.productsRepository = dataSource.getRepository(ProductEntity)
+  }
+  async insert(product: ProductModel): Promise<ProductModel> {
+    const entity = this.productsRepository.create(product)
+    const savedEntity = await this.productsRepository.save(entity)
+    return savedEntity
   }
   async findById(id: string): Promise<ProductModel> {
-    if (!id) {
-      throw new Error('ID is required')
-    } else {
-      throw new Error('Product not found')
+    const entity = await this.productsRepository.findOneBy({ id })
+    if (!entity) {
+      throw new Error(`Product with ID ${id} not found`)
     }
+    return entity
   }
   async update(product: ProductModel): Promise<ProductModel> {
     if (!product.id) {
       throw new Error('ID is required for update')
     }
     product.updated_at = new Date()
-    return product
+    const entity = this.productsRepository.create(product)
+    const savedEntity = await this.productsRepository.save(entity)
+    return savedEntity
   }
   async conflictingName(name: string, id?: string): Promise<boolean> {
-    if (!name) {
-      throw new Error('Name is required')
+    const query = this.productsRepository
+      .createQueryBuilder('product')
+      .where('product.name = :name', { name })
+    if (id) {
+      query.andWhere('product.id != :id', { id })
     }
-    return false
+    const count = await query.getCount()
+    return count > 0
   }
 }
