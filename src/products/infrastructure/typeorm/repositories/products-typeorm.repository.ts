@@ -1,7 +1,7 @@
 import { dataSource } from '@/common/typeorm/typeorm'
 import {
-  ProductModel,
-  ProductsRepository,
+    ProductModel,
+    ProductsRepository,
 } from '@/products/domain/models/products.model'
 import { Repository } from 'typeorm'
 import { ProductEntity } from '../entities/products.entities'
@@ -31,6 +31,12 @@ export class ProductsTypeormRepository implements ProductsRepository {
     const savedEntity = await this.productsRepository.save(entity)
     return savedEntity
   }
+
+  async delete(id: string): Promise<void> {
+    const product = await this._get(id)
+    await this.productsRepository.remove(product)
+  }
+
   async conflictingName(name: string, id?: string): Promise<boolean> {
     const query = this.productsRepository
       .createQueryBuilder('product')

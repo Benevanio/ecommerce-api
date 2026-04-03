@@ -44,4 +44,18 @@ describe('ProductsTypeormRepository integration tests', () => {
       console.log('Is Conflicting Name:', isConflicting)
     })
   })
+
+  describe('Delete', () => {
+    it('should delete a product by id', async () => {
+      const product = {
+        name: 'Product to Delete',
+        price: 15.99,
+        quantity: 30,
+      }
+      const insertedProduct = await productsRepository.insert(product as any)
+      await productsRepository.delete(insertedProduct.id)
+      const foundProduct = await productsRepository.findById(insertedProduct.id)
+      console.log('Found Product after Delete:', foundProduct)
+    })
+  })
 })
