@@ -58,8 +58,16 @@ export class ProductsTypeormRepository implements ProductsRepository {
   }
 
   update(model: ProductModel): Promise<ProductModel> {
-    const entity = this.productsRepository.create(model)
-    return this.productsRepository.save(entity)
+    const entity = this.productsRepository
+      .update(model.id, model)
+      .then(() => model)
+      .catch(error => {
+        if (error instanceof NotFoundError) {
+          throw new NotFoundError(`Product not found using ID ${model.id}`)
+        }
+        throw error
+      })
+    return entity
   }
 
   delete(id: string): Promise<void> {
