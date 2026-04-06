@@ -1,18 +1,20 @@
+import { NotFoundError } from '@/common/domain/errors/not-found-error'
 import { dataSource } from '@/common/typeorm/typeorm'
 import {
   ProductModel,
   ProductsRepository,
 } from '@/products/domain/models/products.model'
-import { Repository } from 'typeorm'
+import { DataSource, Repository } from 'typeorm'
 import { ProductEntity } from '../entities/products.entities'
 
 export class ProductsTypeormRepository implements ProductsRepository {
   sortableFields = ['name', 'price', 'quantity', 'created_at', 'updated_at']
   productsRepository: Repository<ProductEntity>
 
-  constructor() {
-    this.productsRepository = dataSource.getRepository(ProductEntity)
+  constructor(source: DataSource = dataSource) {
+    this.productsRepository = source.getRepository(ProductEntity)
   }
+
   async insert(product: ProductModel): Promise<ProductModel> {
     const entity = this.productsRepository.create(product)
     const savedEntity = await this.productsRepository.save(entity)
@@ -22,6 +24,15 @@ export class ProductsTypeormRepository implements ProductsRepository {
     const product = await this._get(id)
     return product
   }
+
+  async findByName(name: string): Promise<ProductModel | null> {
+    const product = await this.productsRepository.findOneBy({ name })
+    if (!product) {
+      throw new NotFoundError(`Product with name ${name} not found`)
+    }
+    return product
+  }
+
   async update(product: ProductModel): Promise<ProductModel> {
     if (!product.id) {
       throw new Error('ID is required for update')
@@ -50,14 +61,7 @@ export class ProductsTypeormRepository implements ProductsRepository {
   protected async _get(id: string): Promise<ProductEntity> {
     const product = await this.productsRepository.findOneBy({ id })
     if (!product) {
-      throw new Error(`Product with ID ${id} not found`)
-    }
-    return product
-  }
-  async findByName(name: string): Promise<ProductModel> {
-    const product = await this.productsRepository.findOneBy({ name })
-    if (!product) {
-      throw new Error(`Product with name ${name} not found`)
+      throw new NotFoundError(`Product with ID ${id} not found`)
     }
     return product
   }

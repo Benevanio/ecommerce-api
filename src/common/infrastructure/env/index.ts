@@ -1,6 +1,20 @@
 import { AppError } from '@/common/domain/errors/app-error'
-import 'dotenv/config'
+import * as dotenv from 'dotenv'
+import { existsSync } from 'node:fs'
+import * as path from 'node:path'
 import { z } from 'zod'
+
+const rootDir = path.resolve(__dirname, '../../../../')
+const defaultEnvPath = path.join(rootDir, '.env')
+const testEnvPath = path.join(rootDir, '.env.test')
+
+if (existsSync(defaultEnvPath)) {
+  dotenv.config({ path: defaultEnvPath })
+}
+
+if (process.env.NODE_ENV === 'test' && existsSync(testEnvPath)) {
+  dotenv.config({ path: testEnvPath, override: true })
+}
 
 const envSchema = z.object({
   NODE_ENV: z
@@ -15,13 +29,13 @@ const envSchema = z.object({
   DB_NAME: z.string().default('postgres'),
   DB_USER: z.string().default('postgres'),
   DB_PASS: z.string().default('postgres'),
-  JWT_SECRET: z.string(),
+  JWT_SECRET: z.string().default('test-secret'),
   JWT_EXPIRES_IN: z.coerce.number().default(86400),
-  CLOUDFLARE_ACCOUNT_ID: z.string(),
-  CLOUDFLARE_R2_URL: z.string(),
-  BUCKET_NAME: z.string(),
-  AWS_ACCESS_KEY_ID: z.string(),
-  AWS_SECRET_ACCESS_KEY: z.string(),
+  CLOUDFLARE_ACCOUNT_ID: z.string().default(''),
+  CLOUDFLARE_R2_URL: z.string().default(''),
+  BUCKET_NAME: z.string().default(''),
+  AWS_ACCESS_KEY_ID: z.string().default(''),
+  AWS_SECRET_ACCESS_KEY: z.string().default(''),
 })
 
 const _env = envSchema.safeParse(process.env)

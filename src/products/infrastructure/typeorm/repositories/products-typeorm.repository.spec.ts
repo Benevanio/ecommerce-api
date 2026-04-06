@@ -15,7 +15,7 @@ describe('ProductsTypeormRepository integration tests', () => {
   })
   beforeEach(async () => {
     await testDataSource.manager.query('DELETE FROM products')
-    productsRepository = new ProductsTypeormRepository()
+    productsRepository = new ProductsTypeormRepository(testDataSource)
   })
 
   describe('method', () => {
