@@ -1,6 +1,7 @@
+/* eslint-disable prettier/prettier */
 import { ProductsTypeormRepository } from '@/products/infrastructure/typeorm/repositories/products-typeorm.repository'
 import { after, before, beforeEach, describe, it } from 'node:test'
-import { testDataSource } from '../testing/data-source'
+import { testDataSource } from '../../../../common/infrastructure/typeorm/testing/data-source'
 
 describe('ProductsTypeormRepository integration tests', () => {
   let productsRepository: ProductsTypeormRepository
@@ -56,6 +57,19 @@ describe('ProductsTypeormRepository integration tests', () => {
       await productsRepository.delete(insertedProduct.id)
       const foundProduct = await productsRepository.findById(insertedProduct.id)
       console.log('Found Product after Delete:', foundProduct)
+    })
+  })
+  describe('findByName', () => {
+    it('should find a product by name', async () => {
+      const product = {
+        name: 'Product to Find',
+        price: 25.99,
+        quantity: 20,
+      }
+      await productsRepository.insert(product as any)
+      const foundProduct =
+        await productsRepository.findByName('Product to Find')
+      console.log('Found Product by Name:', foundProduct)
     })
   })
 })

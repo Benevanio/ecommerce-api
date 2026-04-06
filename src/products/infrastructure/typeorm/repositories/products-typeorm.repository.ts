@@ -1,7 +1,7 @@
 import { dataSource } from '@/common/typeorm/typeorm'
 import {
-    ProductModel,
-    ProductsRepository,
+  ProductModel,
+  ProductsRepository,
 } from '@/products/domain/models/products.model'
 import { Repository } from 'typeorm'
 import { ProductEntity } from '../entities/products.entities'
@@ -51,6 +51,13 @@ export class ProductsTypeormRepository implements ProductsRepository {
     const product = await this.productsRepository.findOneBy({ id })
     if (!product) {
       throw new Error(`Product with ID ${id} not found`)
+    }
+    return product
+  }
+  async findByName(name: string): Promise<ProductModel> {
+    const product = await this.productsRepository.findOneBy({ name })
+    if (!product) {
+      throw new Error(`Product with name ${name} not found`)
     }
     return product
   }
