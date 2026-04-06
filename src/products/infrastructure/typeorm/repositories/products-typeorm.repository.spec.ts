@@ -1,17 +1,28 @@
 /* eslint-disable prettier/prettier */
 import { ProductsTypeormRepository } from '@/products/infrastructure/typeorm/repositories/products-typeorm.repository'
-import { after, before, beforeEach, describe, it } from 'node:test'
+import {
+  afterAll,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+} from '@jest/globals'
 import { testDataSource } from '../../../../common/infrastructure/typeorm/testing/data-source'
 
 describe('ProductsTypeormRepository integration tests', () => {
   let productsRepository: ProductsTypeormRepository
 
-  before(async () => {
-    await testDataSource.initialize()
+  beforeAll(async () => {
+    if (!testDataSource.isInitialized) {
+      await testDataSource.initialize()
+    }
   })
 
-  after(async () => {
-    await testDataSource.destroy()
+  afterAll(async () => {
+    if (testDataSource.isInitialized) {
+      await testDataSource.destroy()
+    }
   })
   beforeEach(async () => {
     await testDataSource.manager.query('DELETE FROM products')
@@ -27,8 +38,9 @@ describe('ProductsTypeormRepository integration tests', () => {
       }
       const insertedProduct = await productsRepository.insert(product as any)
       const foundProduct = await productsRepository.findById(insertedProduct.id)
-      console.log('Inserted Product:', insertedProduct)
-      console.log('Found Product:', foundProduct)
+
+      expect(insertedProduct.id).toBeDefined()
+      expect(foundProduct).toMatchObject(product)
     })
   })
 
@@ -42,7 +54,8 @@ describe('ProductsTypeormRepository integration tests', () => {
       await productsRepository.insert(product as any)
       const isConflicting =
         await productsRepository.conflictingName('Unique Product')
-      console.log('Is Conflicting Name:', isConflicting)
+
+      expect(isConflicting).toBe(true)
     })
   })
 
@@ -54,9 +67,12 @@ describe('ProductsTypeormRepository integration tests', () => {
         quantity: 30,
       }
       const insertedProduct = await productsRepository.insert(product as any)
+
       await productsRepository.delete(insertedProduct.id)
-      const foundProduct = await productsRepository.findById(insertedProduct.id)
-      console.log('Found Product after Delete:', foundProduct)
+
+      await expect(productsRepository.findById(insertedProduct.id)).rejects.toThrow(
+        `Product with ID ${insertedProduct.id} not found`,
+      )
     })
   })
   describe('findByName', () => {
@@ -69,7 +85,9 @@ describe('ProductsTypeormRepository integration tests', () => {
       await productsRepository.insert(product as any)
       const foundProduct =
         await productsRepository.findByName('Product to Find')
-      console.log('Found Product by Name:', foundProduct)
+
+      expect(foundProduct).toMatchObject(product)
     })
   })
 })
+

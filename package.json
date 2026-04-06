@@ -16,14 +16,18 @@
     "posttest:int": "docker stop testsdb && docker rm testsdb"
   },
   "keywords": [
-"ecommerce",
-"api",
-"typescript",
-"express",
-"typeorm",
-"postgresql","aws-s3",
-"jwt","nodemailer","swagger","testing","jest"
-
+    "ecommerce",
+    "api",
+    "typescript",
+    "express",
+    "typeorm",
+    "postgresql",
+    "aws-s3",
+    "jwt",
+    "nodemailer",
+    "swagger",
+    "testing",
+    "jest"
   ],
   "author": "",
   "license": "ISC",
