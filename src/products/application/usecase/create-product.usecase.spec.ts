@@ -11,19 +11,50 @@ describe('Create Product Use Case', () => {
     suit = new CreateProductUseCase.Usecase(repoository)
   })
 
-  it('should create a product successfully', () => {
+  it('should create a product successfully', async () => {
     const input: CreateProductUseCase.input = {
       name: 'Test Product',
       price: 100,
       quantity: 10,
     }
-    suit.execute(input).then(output => {
-      expect(output).toHaveProperty('id')
-      expect(output.name).toBe(input.name)
-      expect(output.price).toBe(input.price)
-      expect(output.quantity).toBe(input.quantity)
-      expect(output).toHaveProperty('created_at')
-      expect(output).toHaveProperty('updated_at')
-    })
+    const output = await suit.execute(input)
+    expect(output).toHaveProperty('id')
+    expect(output.name).toBe(input.name)
+    expect(output.price).toBe(input.price)
+    expect(output.quantity).toBe(input.quantity)
+    expect(output).toHaveProperty('created_at')
+    expect(output).toHaveProperty('updated_at')
+  })
+  it('should throw an error if name is missing', async () => {
+    const input: CreateProductUseCase.input = {
+      name: '',
+      price: 100,
+      quantity: 10,
+    }
+    await expect(suit.execute(input)).rejects.toThrow(
+      'Name, price and quantity are required',
+    )
+  })
+
+  it('should throw an error if price is missing', async () => {
+    const input: CreateProductUseCase.input = {
+      name: 'Test Product',
+      price: 0,
+      quantity: 10,
+    }
+    expect(suit.execute(input)).rejects.toThrow(
+      'Name, price and quantity are required',
+    )
+  })
+
+  it('should throw an error if quantity is missing', async () => {
+    const input: CreateProductUseCase.input = {
+      name: 'Test Product',
+      price: 100,
+      quantity: 0,
+    }
+    await expect(suit.execute(input)).rejects.toThrow(
+      'Name, price and quantity are required',
+    )
   })
 })
