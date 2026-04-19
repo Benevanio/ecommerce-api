@@ -18,7 +18,7 @@ export namespace CreateProductUseCase {
     updated_at: Date
   }
 
-  export class ProductUseCase {
+  export class Usecase {
     constructor(
       private readonly productsRepository: ProductsRepository = new ProductsTypeormRepository(),
     ) {}
