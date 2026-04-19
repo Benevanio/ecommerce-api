@@ -3,8 +3,8 @@ export interface ProductModel {
   name: string
   price: number
   quantity: number
-  created_at: Date
-  updated_at: Date
+  created_at?: Date
+  updated_at?: Date
 }
 
 export interface ProductsRepository {
