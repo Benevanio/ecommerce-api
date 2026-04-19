@@ -1,4 +1,5 @@
 import { BadRequestError } from '@/common/domain/errors/bad-request-error'
+import { ProductsRepository } from '@/products/domain/models/products.model'
 import { ProductsTypeormRepository } from '@/products/infrastructure/typeorm/repositories/products-typeorm.repository'
 
 export namespace CreateProductUseCase {
@@ -19,13 +20,13 @@ export namespace CreateProductUseCase {
 
   export class ProductUseCase {
     constructor(
-      private readonly productsRepository: ProductsTypeormRepository,
+      private readonly productsRepository: ProductsRepository = new ProductsTypeormRepository(),
     ) {}
     async execute(input: input): Promise<output> {
       if (!input.name || !input.price || !input.quantity) {
         throw new BadRequestError('Name, price and quantity are required')
       }
-      const product = this.productsRepository.insert(input as any)
+      const product = await this.productsRepository.insert(input as any)
       return product
     }
   }
