@@ -26,8 +26,29 @@ export namespace CreateProductUseCase {
       if (!input.name || !input.price || !input.quantity) {
         throw new BadRequestError('Name, price and quantity are required')
       }
-      const product = await this.productsRepository.insert(input as any)
-      return product
+      await this.productsRepository
+        .conflictingName(input.name)
+        .then(conflict => {
+          if (conflict) {
+            throw new BadRequestError('Product name already exists')
+          }
+        })
+      const product = await this.productsRepository.insert({
+        name: input.name,
+        price: input.price,
+        quantity: input.quantity,
+        id: input.name.toLowerCase().replace(/\s/g, '-') + '-' + Date.now(),
+        created_at: undefined,
+        updated_at: undefined,
+      })
+      return {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        quantity: product.quantity,
+        created_at: product.created_at,
+        updated_at: product.updated_at,
+      }
     }
   }
 }
