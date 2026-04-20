@@ -11,6 +11,7 @@ export interface ProductsRepository {
   insert(product: ProductModel): Promise<ProductModel>
   findById(id: string): Promise<ProductModel>
   update(product: ProductModel): Promise<ProductModel>
+  findAll(): Promise<ProductModel[]>
   delete(id: string): Promise<void>
   conflictingName(name: string, id?: string): Promise<boolean>
 }

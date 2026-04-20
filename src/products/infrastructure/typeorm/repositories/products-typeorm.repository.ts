@@ -65,4 +65,7 @@ export class ProductsTypeormRepository implements ProductsRepository {
     }
     return product
   }
+  async findAll(): Promise<ProductModel[]> {
+    return this.productsRepository.find()
+  }
 }
