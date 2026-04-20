@@ -1,7 +1,6 @@
 import { BadRequestError } from '@/common/domain/errors/bad-request-error'
 import { ProductsRepository } from '@/products/domain/models/products.model'
-import { ProductsTypeormRepository } from '@/products/infrastructure/typeorm/repositories/products-typeorm.repository'
-
+import { inject, injectable } from 'tsyringe'
 export namespace CreateProductUseCase {
   export type input = {
     name: string
@@ -17,10 +16,11 @@ export namespace CreateProductUseCase {
     created_at: Date
     updated_at: Date
   }
-
+  @injectable()
   export class Usecase {
     constructor(
-      private readonly productsRepository: ProductsRepository = new ProductsTypeormRepository(),
+      @inject('ProductsRepository')
+      private readonly productsRepository: ProductsRepository,
     ) {}
     async execute(input: input): Promise<output> {
       if (!input.name || !input.price || !input.quantity) {

@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+import '@/common/infrastructure/container'
 import { dataSource } from '@/common/typeorm/typeorm'
 import { app } from './app'
 import { env } from './env'
