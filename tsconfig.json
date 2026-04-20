@@ -23,8 +23,6 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "resolveJsonModule": true,
-     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
   },
   "include": ["src"],
   "exclude": ["dist", "node_modules"]
