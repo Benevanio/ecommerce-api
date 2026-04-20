@@ -5,7 +5,8 @@ const productsRouter = Router()
 
 productsRouter.post('/products', createProductController)
 productsRouter.get('/products', (req, res) => {
-  return res.status(200).json({ message: 'List of products' })
+  const body = req.body
+  return res.status(200).json({ message: 'Listagem de produtos', body })
 })
 
 export { productsRouter }
