@@ -1,3 +1,4 @@
+import { productsRouter } from '@/products/infrastructure/htpp/routes/products.routes'
 import cors from 'cors'
 import express, { NextFunction, Request, Response } from 'express'
 import swaggerJSDoc from 'swagger-jsdoc'
@@ -26,4 +27,5 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) =>
   errorHandler(err, req, res, next),
 )
 
+app.use(productsRouter)
 export { app }

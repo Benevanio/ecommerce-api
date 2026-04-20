@@ -1,8 +1,15 @@
 import { ProductModel } from '@/products/domain/models/products.model'
-import { Column, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm'
 
+@Entity('products')
 export class ProductEntity implements ProductModel {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn()
   id: string
 
   @Column('varchar')
@@ -14,9 +21,9 @@ export class ProductEntity implements ProductModel {
   @Column('int')
   quantity: number
 
-  @Column('timestamp')
+  @CreateDateColumn()
   created_at: Date
 
-  @Column('timestamp')
+  @UpdateDateColumn()
   updated_at: Date
 }

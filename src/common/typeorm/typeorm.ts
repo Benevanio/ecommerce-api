@@ -1,3 +1,4 @@
+import { ProductEntity } from '@/products/infrastructure/typeorm/entities/products.entities'
 import { DataSource } from 'typeorm'
 import { env } from '../infrastructure/http/env'
 
@@ -11,7 +12,7 @@ export const dataSource = new DataSource({
   schema: env.DB_SCHEMA,
   synchronize: true,
   logging: false,
-  entities: ['**/entities/**/*.ts'],
+  entities: [ProductEntity],
   migrations: ['**/migrations/**/*.ts'],
   subscribers: ['**/subscribers/**/*.ts'],
 })
